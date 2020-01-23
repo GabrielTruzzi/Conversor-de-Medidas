@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+<!-- 
+
+Este conversor de medidas tem 4 usos centrais: converter Líquidos, Farinha, Açucar e Manteiga. O funcionamento dele se baseia 
+em arrays, onde os primeiros arrays com 9 variaveis são relacionados as 9 medidas existentes no programa para a conversão de 
+líquidos, já os arrays com 4 variaveis são relacionados aos outros 3 conversores, sendo as variaveis fatores numeradas de:
+
+-1 a 9 ligados ao conversor líquido;
+-10 a 13 ligados ao conversor de farinha;
+-14 a 17 ligados ao conversor de açucar;
+-18 a 21 ligados ao conversor de manteiga;
+
+O valor armazenado nos arrays é relativo a uma unidade padrão que o conversor foi baseado, no caso em xicaras, pois 
+é uma variavel constante em todos os quatro conversores que torna padronizar mais simples, e a conversão em si 
+funciona como um multiplicador de proporção do valor inserido
+
+Escrito por Gabriel de Martin Truzzi (2015)
+
+-->
+
+
+<title>Conversor de Medidas</title>
+
+<script type="text/javascript">
+
+var fatores1 = new Array(1, 1, 16, 24, 480, 960, 4.8, 240, 240);
+var fatores2 = new Array(1, 1, 16, 24, 480, 960, 4.8, 240, 240);
+var fatores3 = new Array(0.0625, 0.0625, 1, 1.5, 3, 6, 0.3, 15, 15);
+var fatores4 = new Array(0.041, 0.041, 0,66, 1, 2, 4, 0.2, 10, 10);
+var fatores5 = new Array(0.02, 0.02, 0.3, 0.5, 1, 2, 0.1, 5, 5);
+var fatores6 = new Array(0.01, 0.01, 0.16, 0.25, 0.5, 1, 0.05, 5, 5);
+var fatores7 = new Array(0.2, 0.2, 3.33, 5, 10, 20, 1, 50, 50);
+var fatores8 = new Array(0.0041, 0.0041, 0.06, 0.1, 0.2, 0.4, 0.02, 1, 1);
+var fatores9 = new Array(0.0041, 0.0041, 0.06, 0.1, 0.2, 0.4, 0.02, 1, 1);
+var fatores10 = new Array(1,15,45,180);
+var fatores11 = new Array(0.06,1,3,12);
+var fatores12 = new Array(0.02,0.3,1,4);
+var fatores13 = new Array(0.005,0.083,0.25,1);
+var fatores14 = new Array(1,16,48,120);
+var fatores15 = new Array(0.0625,1,3,7,5);
+var fatores16 = new Array(0.02,0.3,1,2.5);
+var fatores17 = new Array(0.008,0.13,0.4,1);
+var fatores18 = new Array(1,13.33,40,200);
+var fatores19 = new Array(0.075,1,3,15);
+var fatores20 = new Array(0.025,0.3,1,5);
+var fatores21 = new Array(0.005,0.06,0.2,1);
+var fatoresliquido = new Array(fatores1,fatores2,fatores3,fatores4,fatores5,fatores6,fatores7,fatores8,fatores9);
+var fatoresfarinha = new Array(fatores10,fatores11,fatores12,fatores13);
+var fatoresacucar = new Array(fatores14,fatores15,fatores16,fatores17);
+var fatoresmanteiga = new Array(fatores18,fatores19,fatores20,fatores21);
+
+function convert_liquido()
+{
+	from_index = document.liquidosform.from_unit.selectedIndex;
+	to_index = document.liquidosform.to_unit.selectedIndex;
+	fatorliquido = fatoresliquido[from_index][to_index];
+	document.getElementById("formula").innerHTML = document.liquidosform.from_unit.options[document.liquidosform.from_unit.selectedIndex].text + " = " + fatorliquido + " " + document.liquidosform.to_unit.options[document.liquidosform.to_unit.selectedIndex].text;
+	if(isNaN(document.liquidosform.from_value.value))
+		document.getElementById("to_value").innerHTML = "Número Inválido.";
+	else
+		document.getElementById("to_value").innerHTML = fatorliquido * document.liquidosform.from_value.value;
+}
+
+function convert_farinha()
+{
+	from_index = document.farinhaform.from_unit2.selectedIndex;
+	to_index = document.farinhaform.to_unit2.selectedIndex;
+	fatorfarinha = fatoresfarinha[from_index][to_index];
+	document.getElementById("formula2").innerHTML = document.farinhaform.from_unit2.options[document.farinhaform.from_unit2.selectedIndex].text + " = " + fatorfarinha + " " + document.farinhaform.to_unit2.options[document.farinhaform.to_unit2.selectedIndex].text;
+	if(isNaN(document.farinhaform.from_value2.value))
+		document.getElementById("to_value2").innerHTML = "Número Inválido.";
+	else
+		document.getElementById("to_value2").innerHTML = fatorfarinha * document.farinhaform.from_value2.value;
+}
+
+function convert_acucar()
+{
+	from_index = document.acucarform.from_unit3.selectedIndex;
+	to_index = document.acucarform.to_unit3.selectedIndex;
+	fatoracucar = fatoresacucar[from_index][to_index];
+	document.getElementById("formula3").innerHTML = document.acucarform.from_unit3.options[document.acucarform.from_unit3.selectedIndex].text + " = " + fatoracucar + " " + document.acucarform.to_unit3.options[document.acucarform.to_unit3.selectedIndex].text;
+	if(isNaN(document.acucarform.from_value3.value))
+		document.getElementById("to_value3").innerHTML = "Número Inválido.";
+	else
+		document.getElementById("to_value3").innerHTML = fatoracucar * document.acucarform.from_value3.value;
+}
+
+function convert_manteiga()
+{
+	from_index = document.manteigaform.from_unit4.selectedIndex;
+	to_index = document.manteigaform.to_unit4.selectedIndex;
+	fatormanteiga = fatoresmanteiga[from_index][to_index];
+	document.getElementById("formula4").innerHTML = document.manteigaform.from_unit4.options[document.manteigaform.from_unit4.selectedIndex].text + " = " + fatormanteiga + " " + document.manteigaform.to_unit4.options[document.manteigaform.to_unit4.selectedIndex].text;
+	if(isNaN(document.manteigaform.from_value4.value))
+		document.getElementById("to_value4").innerHTML = "Número Inválido.";
+	else
+		document.getElementById("to_value4").innerHTML = fatormanteiga * document.manteigaform.from_value4.value;
+}
+
+</script>
+	
+	
+</head>
+<body>
+
+<p>Conversor de medidas</p>
+
+<hr>
+<form name="liquidosform">
+
+<table>
+
+	<tr>
+		<td>Conversor de Líquidos: de </td>
+
+		<td>
+			<select name=from_unit onChange="convert_liquido()";>
+			<option> xícara
+			<option> copo
+			<option> colher de sopa
+			<option> colher de sobremesa
+			<option> colher de chá
+			<option> colher de café
+			<option> dose
+			<option> dash
+			<option> ml
+			</select>
+
+		</td>
+		<td>  Para</td>
+		<td>
+			<select name=to_unit onChange="convert_liquido()";>
+			<option> xícara
+			<option> copo
+			<option> colher de sopa
+			<option> colher de sobremesa
+			<option> colher de chá
+			<option> colher de café
+			<option> dose
+			<option> dash
+			<option> ml
+			</select>
+
+		</td>
+	</tr>
+	<tr>
+		<td> </td><td colspan="3"><div id="formula">xícara = 1 xícara</div></td>
+	</tr>
+
+	<tr>
+		<td colspan="4"> </td>
+	</tr>
+
+	<tr>
+		<td>Valor</td>
+		<td><input type="text" name="from_value" value="1" size="12" maxlength="12"></td>
+		<td> <input type=button value="Para" onClick="convert_liquido()";> </td>
+		<td><div id="to_value">1</div></td>
+	</tr>
+
+</table>
+
+</form>
+
+<hr>
+<form name="farinhaform">
+
+<table>
+
+	<tr>
+		<td>Conversor de Farinha: de </td>
+
+		<td>
+			<select name=from_unit2 onChange="convert_farinha()";>
+			<option> xícara
+			<option> colher de sopa
+			<option> colher de chá
+			<option> gramas
+			</select>
+
+		</td>
+		<td>  Para</td>
+		<td>
+			<select name=to_unit2 onChange="convert_farinha()";>
+			<option> xícara
+			<option> colher de sopa
+			<option> colher de chá
+			<option> gramas
+			</select>
+
+		</td>
+	</tr>
+	<tr>
+		<td> </td><td colspan="3"><div id="formula2">xícara = 1 xícara</div></td>
+	</tr>
+
+	<tr>
+		<td colspan="4"> </td>
+	</tr>
+
+	<tr>
+		<td>Valor</td>
+		<td><input type="text" name="from_value2" value="1" size="12" maxlength="12"></td>
+		<td> <input type=button value="Para" onClick="convert_farinha()";> </td>
+		<td><div id="to_value2">1</div></td>
+	</tr>
+
+</table>
+
+</form>
+
+<hr>
+<form name="acucarform">
+
+<table>
+
+	<tr>
+		<td>Conversor de Açúcar: de </td>
+
+		<td>
+			<select name=from_unit3 onChange="convert_acucar()";>
+			<option> xícara
+			<option> colher de sopa
+			<option> colher de chá
+			<option> gramas
+			</select>
+
+		</td>
+		<td>  Para</td>
+		<td>
+			<select name=to_unit3 onChange="convert_acucar()";>
+			<option> xícara
+			<option> colher de sopa
+			<option> colher de chá
+			<option> gramas
+			</select>
+
+		</td>
+	</tr>
+	<tr>
+		<td> </td><td colspan="3"><div id="formula3">xícara = 1 xícara</div></td>
+	</tr>
+
+	<tr>
+		<td colspan="4"> </td>
+	</tr>
+
+	<tr>
+		<td>Valor</td>
+		<td><input type="text" name="from_value3" value="1" size="12" maxlength="12"></td>
+		<td> <input type=button value="Para" onClick="convert_acucar()";> </td>
+		<td><div id="to_value3">1</div></td>
+	</tr>
+
+</table>
+
+</form>
+
+<hr>
+<form name="manteigaform">
+
+<table>
+
+	<tr>
+		<td>Conversor de Manteiga: de </td>
+
+		<td>
+			<select name=from_unit4 onChange="convert_manteiga()";>
+			<option> xícara
+			<option> colher de sopa
+			<option> colher de chá
+			<option> gramas
+			</select>
+
+		</td>
+		<td>  Para</td>
+		<td>
+			<select name=to_unit4 onChange="convert_manteiga()";>
+			<option> xícara
+			<option> colher de sopa
+			<option> colher de chá
+			<option> gramas
+			</select>
+
+		</td>
+	</tr>
+	<tr>
+		<td> </td><td colspan="3"><div id="formula4">xícara = 1 xícara</div></td>
+	</tr>
+
+	<tr>
+		<td colspan="4"> </td>
+	</tr>
+
+	<tr>
+		<td>Valor</td>
+		<td><input type="text" name="from_value4" value="1" size="12" maxlength="12"></td>
+		<td> <input type=button value="Para" onClick="convert_manteiga()";> </td>
+		<td><div id="to_value4">1</div></td>
+	</tr>
+
+</table>
+
+</form>
+
+</body>
+</html>
