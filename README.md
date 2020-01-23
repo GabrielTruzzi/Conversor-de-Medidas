@@ -1,2 +1,2 @@
-# ConversordeMedidas
-Um conversor de medidas que escrevi em javascript em 2015
+# Conversor de Medidas
+Um conversor de medidas gastronomicas em javascript 
